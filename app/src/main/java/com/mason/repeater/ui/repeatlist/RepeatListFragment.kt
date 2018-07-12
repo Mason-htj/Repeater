@@ -3,8 +3,10 @@ package com.mason.repeater.ui.repeatlist
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.mason.repeater.BaseFragment
 import com.mason.repeater.R
+import com.mason.repeater.model.RepeatData
 import kotlinx.android.synthetic.main.fragment_repeat_list.*
 
 class RepeatListFragment : BaseFragment() {
@@ -32,6 +34,17 @@ class RepeatListFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        RepeatListViewModel.INSTANCE.repeatList.observe(this, Observer { it?.let { adapter.setList(it) } })
+        RepeatListViewModel.INSTANCE.repeatList.observe(this, Observer { onChangedList(it) })
+    }
+
+    private fun onChangedList(list: List<RepeatData>?) {
+        if (list == null || list.isEmpty()) {
+            recyclerView.visibility = View.GONE
+            textEmpty.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            textEmpty.visibility = View.GONE
+            adapter.setList(list)
+        }
     }
 }
