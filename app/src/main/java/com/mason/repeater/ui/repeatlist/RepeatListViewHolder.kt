@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mason.repeater.R
+import com.mason.repeater.model.IntervalType
 import com.mason.repeater.model.RepeatData
 import com.mason.repeater.util.ConvertUtils
 import kotlinx.android.synthetic.main.viewholder_repeat_list.view.*
@@ -26,7 +27,8 @@ class RepeatListViewHolder(itemView: View,
         this.data = data
         itemView.textTitle.text = data?.title
         itemView.textDetail.text = data?.detail
-        itemView.textInterval.text = ConvertUtils.getIntervalText(data?.interval ?: 0)
+        itemView.textInterval.text = ConvertUtils.getIntervalText(data?.intervalType
+                ?: IntervalType.SECOND, data?.intervalData ?: 0)
         itemView.switchActivate.isChecked = data?.isActivate == true
     }
 }

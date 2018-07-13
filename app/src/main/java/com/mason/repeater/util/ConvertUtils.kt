@@ -1,33 +1,29 @@
 package com.mason.repeater.util
 
+import com.mason.repeater.model.DayOfWeek
+import com.mason.repeater.model.IntervalType
+
 class ConvertUtils {
     companion object {
-        fun getIntervalText(interval: Long): String {
-            val second = 1000L
-            val minute = 60 * second
-            val hour = 60 * minute
-            val day = 24 * hour
-            val week = 7 * day
-            val month = 30 * day
-
-            return when {
-                interval < minute -> {
-                    "${interval / second}초에 한번"
+        fun getIntervalText(type: IntervalType, data: Int): String {
+            when(type) {
+                IntervalType.SECOND -> {
+                    return "매 ${data}초"
                 }
-                interval < hour -> {
-                    "${interval / minute}분에 한번"
+                IntervalType.MINUTE -> {
+                    return "매 ${data}분"
                 }
-                interval < day -> {
-                    "${interval / hour}시간에 한번"
+                IntervalType.HOUR -> {
+                    return "매 ${data}시"
                 }
-                interval < week -> {
-                    "${interval / day}일에 한번"
+                IntervalType.DAY -> {
+                    return "매월 ${data}일"
                 }
-                interval < month -> {
-                    "${interval / week}주에 한번"
+                IntervalType.MONTH -> {
+                    return "매년 ${data}월"
                 }
-                else -> {
-                    "${interval / month}개월에 한번"
+                IntervalType.WEEK -> {
+                    return "매주 ${DayOfWeek.values()[data]}요일"
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.mason.repeater
 
+import com.mason.repeater.model.IntervalType
 import com.mason.repeater.model.RepeatData
 import java.util.*
 
@@ -11,7 +12,7 @@ object DummyData {
         val list = ArrayList<RepeatData>()
 
         (0..DUMMY_SIZE).forEach {
-            list.add(RepeatData(it + 1L, "Repeat $it", "Detail $it", System.currentTimeMillis(), rand.nextInt(10000) * 60000L, true))
+            list.add(RepeatData(it + 1L, "Repeat $it", "Detail $it", System.currentTimeMillis(), 0, IntervalType.values()[rand.nextInt(IntervalType.values().size)], true))
         }
         return list
     }

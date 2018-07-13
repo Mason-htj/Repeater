@@ -9,6 +9,7 @@ data class RepeatData(
         var title: String = "",
         var detail: String = "",
         var startTime: Long = 0,
-        var interval: Long = 0,
+        var intervalData: Int = 0,
+        var intervalType: IntervalType = IntervalType.SECOND,
         var isActivate: Boolean = false
 ) : Parcelable
