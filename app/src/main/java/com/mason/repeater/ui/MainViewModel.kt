@@ -11,8 +11,8 @@ class MainViewModel private constructor() {
 
     init {
         viewState.value = MainViewState.NONE
-        repeatList.value = RepeatDataProvider.INSTANCE.repeatDataList
-//        repeatList.value = DummyData.getRepeatList()
+//        repeatList.value = RepeatDataProvider.INSTANCE.repeatDataList
+        repeatList.value = DummyData.getRepeatList()
     }
 
     companion object {
