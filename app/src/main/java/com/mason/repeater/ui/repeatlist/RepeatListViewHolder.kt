@@ -27,7 +27,7 @@ class RepeatListViewHolder(itemView: View,
         this.data = data
         itemView.textTitle.text = data?.title
         itemView.textDetail.text = data?.detail
-        itemView.textInterval.text = ConvertUtils.getIntervalText(data?.intervalType
+        itemView.textInterval.text = ConvertUtils.getIntervalText(itemView.context, data?.intervalType
                 ?: IntervalType.SECOND, data?.intervalData ?: 0)
         itemView.switchActivate.isChecked = data?.isActivate == true
     }
