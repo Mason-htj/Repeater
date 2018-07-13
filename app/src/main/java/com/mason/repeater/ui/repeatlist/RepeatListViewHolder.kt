@@ -25,7 +25,6 @@ class RepeatListViewHolder(itemView: View,
         this.data = data
         itemView.textTitle.text = data?.title
         itemView.textDetail.text = data?.detail
-        itemView.textStartTime.text = "${data?.startTime}"
         itemView.textInterval.text = "${data?.interval}"
         itemView.switchActivate.isChecked = data?.isActivate == true
     }

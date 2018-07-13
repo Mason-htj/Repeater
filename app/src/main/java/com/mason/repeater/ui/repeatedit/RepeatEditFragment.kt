@@ -61,6 +61,7 @@ class RepeatEditFragment : BaseFragment() {
     private fun saveRepeatData() {
         repeatData.title = editTitle.text.toString()
         repeatData.detail = editDetail.text.toString()
+        repeatData.startTime = System.currentTimeMillis()
     }
 
     interface OnCompleteRepeatEditListener {
