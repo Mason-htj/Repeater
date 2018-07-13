@@ -3,6 +3,7 @@ package com.mason.repeater.ui
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.mason.repeater.R
 import com.mason.repeater.model.RepeatData
 import com.mason.repeater.ui.repeatedit.RepeatEditFragment
@@ -51,6 +52,10 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
 
     override fun onClickRepeatData(data: RepeatData) {
         showRepeatDetail(data)
+    }
+
+    override fun onChangedActivate(data: RepeatData) {
+        Toast.makeText(this, "${data.title}를 ${if (data.isActivate) "활성화" else "비활성화"}하였습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCompleteRepeatEdit(data: RepeatData) {

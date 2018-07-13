@@ -25,5 +25,6 @@ class RepeatListAdapter(private val listener: OnClickRepeatDataListener) : Recyc
 
     interface OnClickRepeatDataListener {
         fun onClickRepeatData(data: RepeatData)
+        fun onChangedActivate(data: RepeatData)
     }
 }

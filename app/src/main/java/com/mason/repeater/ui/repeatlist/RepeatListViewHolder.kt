@@ -16,6 +16,12 @@ class RepeatListViewHolder(itemView: View,
 
     init {
         itemView.setOnClickListener { data?.let { listener.onClickRepeatData(it) } }
+        itemView.switchActivate.setOnClickListener {
+            data?.let {
+                it.isActivate = !it.isActivate
+                listener.onChangedActivate(it)
+            }
+        }
     }
 
     companion object {
