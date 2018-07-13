@@ -7,6 +7,8 @@ import android.view.View
 import com.mason.repeater.BaseFragment
 import com.mason.repeater.R
 import com.mason.repeater.model.RepeatData
+import com.mason.repeater.ui.MainViewModel
+import com.mason.repeater.ui.MainViewState
 import kotlinx.android.synthetic.main.fragment_repeat_list.*
 
 class RepeatListFragment : BaseFragment() {
@@ -15,6 +17,11 @@ class RepeatListFragment : BaseFragment() {
 
     companion object {
         fun newInstance(): RepeatListFragment = RepeatListFragment()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MainViewModel.INSTANCE.viewState.value = MainViewState.LIST
     }
 
     override fun onAttach(context: Context?) {
@@ -34,17 +41,19 @@ class RepeatListFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        RepeatListViewModel.INSTANCE.repeatList.observe(this, Observer { onChangedList(it) })
+        MainViewModel.INSTANCE.repeatList.observe(this, Observer { onChangedList(it) })
     }
 
     private fun onChangedList(list: List<RepeatData>?) {
-        if (list == null || list.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            textEmpty.visibility = View.VISIBLE
-        } else {
-            recyclerView.visibility = View.VISIBLE
-            textEmpty.visibility = View.GONE
-            adapter.setList(list)
+        list?.let {
+            if (it.isEmpty()) {
+                recyclerView.visibility = View.GONE
+                textEmpty.visibility = View.VISIBLE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                textEmpty.visibility = View.GONE
+                adapter.setList(it)
+            }
         }
     }
 }
