@@ -3,15 +3,15 @@ package com.mason.repeater.ui
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.mason.repeater.R
 import com.mason.repeater.model.RepeatData
-import com.mason.repeater.ui.repeatadd.RepeatAddFragment
+import com.mason.repeater.ui.repeatedit.RepeatEditFragment
+import com.mason.repeater.ui.repeatdetail.RepeatDetailFragment
 import com.mason.repeater.ui.repeatlist.RepeatListAdapter
 import com.mason.repeater.ui.repeatlist.RepeatListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataListener, RepeatAddFragment.OnRepeatAddListener {
+class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataListener, RepeatEditFragment.OnCompleteRepeatEditListener, RepeatDetailFragment.OnEditRepeatDataListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
     }
 
     private fun initView() {
-        FAB.setOnClickListener { showRepeatDetail(null) }
+        FAB.setOnClickListener { showRepeatAdd() }
 
         MainViewModel.INSTANCE.viewState.observe(this, Observer {
             if (it == MainViewState.LIST) {
@@ -35,9 +35,16 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
         })
     }
 
-    private fun showRepeatDetail(data: RepeatData?) {
+    private fun showRepeatAdd() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.containerFragment, RepeatAddFragment.newInstance())
+                .replace(R.id.containerFragment, RepeatEditFragment.newInstance(null))
+                .addToBackStack(null)
+                .commit()
+    }
+
+    private fun showRepeatDetail(data: RepeatData) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerFragment, RepeatDetailFragment.newInstance(data))
                 .addToBackStack(null)
                 .commit()
     }
@@ -46,8 +53,30 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
         showRepeatDetail(data)
     }
 
-    override fun onRepeatAdd(data: RepeatData) {
+    override fun onCompleteRepeatEdit(data: RepeatData) {
+        clearFragmentBackStack()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerFragment, RepeatListFragment.newInstance())
+                .commit()
+    }
+
+    override fun onCompleteRepeatAdd(data: RepeatData) {
         MainViewModel.INSTANCE.addRepeatData(data)
-        onBackPressed()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerFragment, RepeatListFragment.newInstance())
+                .commit()
+    }
+
+    override fun onEditRepeatData(data: RepeatData) {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.containerFragment, RepeatEditFragment.newInstance(data))
+                .addToBackStack(null)
+                .commit()
+    }
+
+    private fun clearFragmentBackStack() {
+        (0..supportFragmentManager.backStackEntryCount).forEach {
+            supportFragmentManager.popBackStack()
+        }
     }
 }
