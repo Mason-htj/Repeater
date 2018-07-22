@@ -1,13 +1,15 @@
 package com.mason.repeater.ui
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.mason.repeater.R
+import com.mason.repeater.StringKey
 import com.mason.repeater.model.RepeatData
-import com.mason.repeater.ui.repeatedit.RepeatEditFragment
 import com.mason.repeater.ui.repeatdetail.RepeatDetailFragment
+import com.mason.repeater.ui.repeatedit.RepeatEditFragment
 import com.mason.repeater.ui.repeatlist.RepeatListAdapter
 import com.mason.repeater.ui.repeatlist.RepeatListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +24,13 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
         supportFragmentManager.beginTransaction()
                 .add(R.id.containerFragment, RepeatListFragment.newInstance())
                 .commit()
+
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let { handleIntent(intent) }
     }
 
     private fun initView() {
@@ -82,6 +91,16 @@ class MainActivity : AppCompatActivity(), RepeatListAdapter.OnClickRepeatDataLis
     private fun clearFragmentBackStack() {
         (0..supportFragmentManager.backStackEntryCount).forEach {
             supportFragmentManager.popBackStack()
+        }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val from = intent.getStringExtra(StringKey.FROM)
+        when (from) {
+            StringKey.FROM_ALARM -> {
+                val data = intent.getParcelableExtra<RepeatData>(StringKey.DATA)
+                Toast.makeText(this, data.toString(), Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

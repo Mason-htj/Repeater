@@ -2,13 +2,14 @@ package com.mason.repeater.util
 
 import android.content.Context
 import com.mason.repeater.R
-import com.mason.repeater.model.DayOfWeek
 import com.mason.repeater.model.IntervalType
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ConvertUtils {
     companion object {
-        fun getIntervalText(context: Context, type: IntervalType, data: Int): String {
-            when(type) {
+        fun getIntervalString(context: Context, type: IntervalType, data: Int): String {
+            when (type) {
                 IntervalType.SECOND -> {
                     return "매 ${data}초"
                 }
@@ -29,6 +30,11 @@ class ConvertUtils {
                     return "매주 ${texts[data]}"
                 }
             }
+        }
+
+        fun getTimeString(context: Context, time: Long): String {
+            val formatter = SimpleDateFormat.getTimeInstance()
+            return formatter.format(Date(time))
         }
     }
 }

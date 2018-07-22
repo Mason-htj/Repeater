@@ -3,6 +3,7 @@ package com.mason.repeater.ui.repeatedit
 import android.content.Context
 import android.os.Bundle
 import com.mason.repeater.BaseFragment
+import com.mason.repeater.BuildConfig
 import com.mason.repeater.R
 import com.mason.repeater.model.RepeatData
 import com.mason.repeater.ui.MainViewModel
@@ -61,7 +62,7 @@ class RepeatEditFragment : BaseFragment() {
     private fun saveRepeatData() {
         repeatData.title = editTitle.text.toString()
         repeatData.detail = editDetail.text.toString()
-        repeatData.startTime = System.currentTimeMillis()
+        repeatData.alarmTime = System.currentTimeMillis() + if (BuildConfig.DEBUG) 5000 else 0
     }
 
     interface OnCompleteRepeatEditListener {
